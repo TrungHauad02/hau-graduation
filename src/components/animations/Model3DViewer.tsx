@@ -95,10 +95,10 @@ export default function Model3DViewer({
   interactive = false,
 }: Model3DViewerProps) {
   return (
-    <div className={`w-full h-full ${className}`} style={{ touchAction: interactive ? 'none' : 'auto' }}>
+    <div className={`w-full h-full ${className}`} style={{ touchAction: interactive ? 'pan-y' : 'auto' }}>
       <Canvas
         camera={{ position: cameraPosition, fov: 45 }}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', touchAction: interactive ? 'pan-y' : 'auto' }}
         gl={{ 
           alpha: true, 
           antialias: false, // Disable antialiasing for better performance
@@ -130,8 +130,11 @@ export default function Model3DViewer({
               enablePan={false}
               enableRotate={true}
               rotateSpeed={0.5}
-              minPolarAngle={Math.PI / 4}
-              maxPolarAngle={Math.PI / 1.5}
+              minPolarAngle={0}
+              maxPolarAngle={Math.PI}
+              minAzimuthAngle={-Infinity}
+              maxAzimuthAngle={Infinity}
+              touches={{ ONE: 1, TWO: 0 }} // ONE finger = ROTATE, disable TWO finger gestures
             />
           )}
         </Suspense>
