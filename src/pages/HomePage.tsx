@@ -26,7 +26,7 @@ export default function HomePage() {
       <div className="fixed left-0 top-0 h-screen w-[120px] md:w-[350px] z-10">
         <div className="absolute inset-0 flex items-center justify-center opacity-40 md:opacity-60">
           <Suspense fallback={null}>
-            <Model3DViewer 
+            <Model3DViewer
               modelPath={MODEL_PATH_LEFT}
               scale={1.2}
               autoRotate={false}
@@ -42,7 +42,7 @@ export default function HomePage() {
       <div className="fixed right-0 top-0 h-screen w-[350px] z-10 hidden md:block">
         <div className="absolute inset-0 flex items-center justify-center opacity-60">
           <Suspense fallback={null}>
-            <Model3DViewer 
+            <Model3DViewer
               modelPath={MODEL_PATH_RIGHT}
               scale={1.2}
               autoRotate={false}
@@ -56,10 +56,7 @@ export default function HomePage() {
 
       {/* Background gradient orbs - Fixed */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <Background3D
-          intensity={40}
-          className="absolute top-[20%] left-[20%]"
-        >
+        <Background3D intensity={40} className="absolute top-[20%] left-[20%]">
           <div className="w-64 h-64 bg-teal-500/5 rounded-full blur-3xl" />
         </Background3D>
 
@@ -85,7 +82,10 @@ export default function HomePage() {
             </FloatingElement>
           </Background3D>
 
-          <Background3D intensity={-25} className="absolute bottom-[40%] left-[40%]">
+          <Background3D
+            intensity={-25}
+            className="absolute bottom-[40%] left-[40%]"
+          >
             <FloatingElement duration={5} delay={1} distance={15}>
               <span className="text-3xl opacity-15">🎓</span>
             </FloatingElement>
@@ -147,7 +147,10 @@ export default function HomePage() {
       <section className="relative py-20 px-4 overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <Background3D intensity={25} className="absolute top-[40%] right-[5%]">
+          <Background3D
+            intensity={25}
+            className="absolute top-[40%] right-[5%]"
+          >
             <div className="w-48 h-48 bg-amber-500/5 rounded-full blur-3xl" />
           </Background3D>
         </div>
@@ -221,7 +224,10 @@ export default function HomePage() {
       <section className="relative py-16 px-4 overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <Background3D intensity={25} className="absolute top-[40%] right-[15%]">
+          <Background3D
+            intensity={25}
+            className="absolute top-[40%] right-[15%]"
+          >
             <div className="w-48 h-48 bg-teal-500/5 rounded-full blur-3xl" />
           </Background3D>
         </div>
@@ -235,7 +241,7 @@ export default function HomePage() {
               Đếm Ngược
             </p>
             <h2 className="text-2xl md:text-3xl font-serif text-white">
-              Đến Ngày Nhận Bằng Nè
+              Đến Ngày Làm Lễ Tốt Nghiệp Nè
             </h2>
           </div>
         </FadeInSection>
@@ -249,7 +255,10 @@ export default function HomePage() {
       <section className="relative py-16 px-4 max-w-5xl mx-auto overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <Background3D intensity={30} className="absolute top-[50%] left-[20%]">
+          <Background3D
+            intensity={30}
+            className="absolute top-[50%] left-[20%]"
+          >
             <div className="w-56 h-56 bg-cyan-500/5 rounded-full blur-3xl" />
           </Background3D>
         </div>
@@ -318,10 +327,16 @@ export default function HomePage() {
       <section className="relative py-20 px-4 overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <Background3D intensity={35} className="absolute top-[20%] left-[25%]">
+          <Background3D
+            intensity={35}
+            className="absolute top-[20%] left-[25%]"
+          >
             <div className="w-72 h-72 bg-teal-500/5 rounded-full blur-3xl" />
           </Background3D>
-          <Background3D intensity={-40} className="absolute bottom-[20%] right-[20%]">
+          <Background3D
+            intensity={-40}
+            className="absolute bottom-[20%] right-[20%]"
+          >
             <div className="w-64 h-64 bg-amber-500/5 rounded-full blur-3xl" />
           </Background3D>
         </div>
@@ -373,7 +388,10 @@ export default function HomePage() {
       <section className="relative py-16 px-4 text-center overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <Background3D intensity={30} className="absolute top-[40%] left-[30%]">
+          <Background3D
+            intensity={30}
+            className="absolute top-[40%] left-[30%]"
+          >
             <div className="w-64 h-64 bg-teal-500/5 rounded-full blur-3xl" />
           </Background3D>
         </div>
@@ -402,7 +420,10 @@ export default function HomePage() {
       {/* MAP NAVIGATION SECTION */}
       <section className="relative py-16 px-4 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <Background3D intensity={25} className="absolute top-[30%] right-[25%]">
+          <Background3D
+            intensity={25}
+            className="absolute top-[30%] right-[25%]"
+          >
             <div className="w-56 h-56 bg-cyan-500/5 rounded-full blur-3xl" />
           </Background3D>
         </div>
