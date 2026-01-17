@@ -1,6 +1,6 @@
 import { Suspense, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, useAnimations, OrbitControls, Environment, Float, Center } from '@react-three/drei';
+import { useGLTF, useAnimations, Center } from '@react-three/drei';
 import type { Group } from 'three';
 import { SkeletonUtils } from 'three-stdlib';
 
@@ -20,9 +20,8 @@ function Model({
   rotation = [0, 0, 0],
   position = [0, 0, 0],
   autoRotate = true,
-  floatIntensity = 1,
   playAnimation = true
-}: ModelProps) {
+}: Omit<ModelProps, 'floatIntensity'>) {
   const groupRef = useRef<Group>(null);
   const { scene, animations } = useGLTF(modelPath);
   
@@ -61,17 +60,11 @@ function Model({
   });
 
   return (
-    <Float 
-      speed={2} 
-      rotationIntensity={0.2 * floatIntensity} 
-      floatIntensity={0.5 * floatIntensity}
-    >
-      <group ref={groupRef} position={position} rotation={rotation}>
-        <Center>
-          <primitive object={clonedScene} scale={scale} />
-        </Center>
-      </group>
-    </Float>
+    <group ref={groupRef} position={position} rotation={rotation}>
+      <Center>
+        <primitive object={clonedScene} scale={scale} />
+      </Center>
+    </group>
   );
 }
 
@@ -95,10 +88,7 @@ export default function Model3DViewer({
   rotation = [0, 0, 0],
   position = [0, 0, 0],
   autoRotate = true,
-  floatIntensity = 1,
   className = '',
-  environmentPreset = 'city',
-  showControls = false,
   cameraPosition = [0, 0, 5],
   playAnimation = true,
 }: Model3DViewerProps) {
@@ -107,12 +97,20 @@ export default function Model3DViewer({
       <Canvas
         camera={{ position: cameraPosition, fov: 45 }}
         style={{ background: 'transparent' }}
-        gl={{ alpha: true, antialias: true }}
+        gl={{ 
+          alpha: true, 
+          antialias: false, // Disable antialiasing for better performance
+          powerPreference: 'high-performance',
+          stencil: false,
+          depth: true,
+        }}
+        dpr={[1, 1.5]} // Limit pixel ratio for performance
+        performance={{ min: 0.5 }} // Allow frame rate to drop for performance
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <pointLight position={[-10, -10, -5]} intensity={0.5} />
+          {/* Simplified lighting */}
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={0.8} />
           
           <Model
             modelPath={modelPath}
@@ -120,26 +118,14 @@ export default function Model3DViewer({
             rotation={rotation}
             position={position}
             autoRotate={autoRotate}
-            floatIntensity={floatIntensity}
             playAnimation={playAnimation}
           />
-          
-          <Environment preset={environmentPreset} />
-          
-          {showControls && (
-            <OrbitControls 
-              enableZoom={false} 
-              enablePan={false}
-              autoRotate={false}
-              minPolarAngle={Math.PI / 4}
-              maxPolarAngle={Math.PI / 1.5}
-            />
-          )}
         </Suspense>
       </Canvas>
     </div>
   );
 }
 
-// Preload the model
+// Preload the models
 useGLTF.preload('/aqua-anime-chibi-model/source/testupload.glb');
+useGLTF.preload('/pantagruel__anime_chibi_model.glb');

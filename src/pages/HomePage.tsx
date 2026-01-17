@@ -8,7 +8,8 @@ import GradientButton from '../components/GradientButton'
 // Lazy load the 3D viewer for better performance
 const Model3DViewer = lazy(() => import('../components/animations/Model3DViewer'))
 
-const MODEL_PATH = '/aqua-anime-chibi-model/source/testupload.glb'
+const MODEL_PATH_LEFT = '/aqua-anime-chibi-model/source/testupload.glb'
+const MODEL_PATH_RIGHT = '/pantagruel__anime_chibi_model.glb'
 
 import {
   GRADUATE_INFO,
@@ -20,17 +21,30 @@ import {
 export default function HomePage() {
   return (
     <div className="relative">
-      {/* FIXED 3D Model - Sticky on left side, always visible */}
+      {/* FIXED 3D Model - Sticky on LEFT side, always visible */}
       <div className="fixed left-0 top-0 h-screen w-[350px] pointer-events-none z-10">
         <div className="absolute inset-0 flex items-center justify-center opacity-60">
           <Suspense fallback={null}>
             <Model3DViewer 
-              modelPath={MODEL_PATH}
+              modelPath={MODEL_PATH_LEFT}
               scale={1.2}
               autoRotate={false}
-              floatIntensity={0.3}
               playAnimation={true}
-              environmentPreset="city"
+              cameraPosition={[0, 0, 8]}
+            />
+          </Suspense>
+        </div>
+      </div>
+
+      {/* FIXED 3D Model - Sticky on RIGHT side, hidden on mobile */}
+      <div className="fixed right-0 top-0 h-screen w-[350px] pointer-events-none z-10 hidden md:block">
+        <div className="absolute inset-0 flex items-center justify-center opacity-60">
+          <Suspense fallback={null}>
+            <Model3DViewer 
+              modelPath={MODEL_PATH_RIGHT}
+              scale={1.2}
+              autoRotate={false}
+              playAnimation={true}
               cameraPosition={[0, 0, 8]}
             />
           </Suspense>
