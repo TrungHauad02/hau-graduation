@@ -5,50 +5,128 @@ interface PhotoGalleryProps {
 
 export default function PhotoGallery({ images, className = '' }: PhotoGalleryProps) {
   return (
-    <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5 ${className}`}>
-      {images.map((image, index) => (
-        <div
-          key={index}
-          className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer"
-          style={{
-            animationDelay: `${index * 100}ms`,
-          }}
-        >
-          {/* Gradient border effect */}
-          <div className="absolute -inset-[2px] bg-gradient-to-br from-amber-400 via-teal-400 to-cyan-400 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-[1px]" />
-          
-          {/* Inner container */}
-          <div className="absolute inset-[2px] rounded-2xl overflow-hidden bg-slate-900">
-            {/* Image */}
-            <img
-              src={image}
-              alt={`Photo ${index + 1}`}
-              className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-110"
-            />
-            
-            {/* Shine effect on hover */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-[-100%] group-hover:translate-x-[100%] transform" 
-              style={{ transition: 'transform 0.8s ease-out, opacity 0.3s' }}
-            />
-            
-            {/* Bottom gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
-            {/* Floating particles effect */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:translate-y-0 translate-y-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" style={{ animationDelay: '0ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" style={{ animationDelay: '150ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" style={{ animationDelay: '300ms' }} />
+    <div className={`relative ${className}`}>
+      {/* Decorative frame corners - hidden on mobile */}
+      <div className="absolute -inset-6 md:-inset-8 pointer-events-none hidden md:block">
+        <div className="absolute top-0 left-0 w-20 h-20 border-l-2 border-t-2 border-amber-500/40 rounded-tl-3xl" />
+        <div className="absolute top-0 right-0 w-20 h-20 border-r-2 border-t-2 border-teal-500/40 rounded-tr-3xl" />
+        <div className="absolute bottom-0 left-0 w-20 h-20 border-l-2 border-b-2 border-teal-500/40 rounded-bl-3xl" />
+        <div className="absolute bottom-0 right-0 w-20 h-20 border-r-2 border-b-2 border-amber-500/40 rounded-br-3xl" />
+      </div>
+
+      {/* MOBILE LAYOUT - Horizontal scroll carousel */}
+      <div className="md:hidden">
+        <div className="flex gap-4 overflow-x-auto pb-4 px-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-[70vw] aspect-[3/4] snap-center"
+              style={{ animation: 'floatIn 0.6s ease-out forwards', animationDelay: `${index * 100}ms`, opacity: 0 }}
+            >
+              <div className="relative h-full bg-white p-2 rounded-xl shadow-2xl shadow-slate-900/50">
+                <img src={image} alt={`Kỷ niệm ${index + 1}`} className="w-full h-full object-cover rounded-lg" />
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Scroll indicator dots */}
+        <div className="flex justify-center gap-2 mt-4">
+          {images.map((_, index) => (
+            <div key={index} className="w-2 h-2 rounded-full bg-amber-500/50" />
+          ))}
+        </div>
+      </div>
+
+      {/* DESKTOP LAYOUT - Scattered Polaroid style */}
+      <div className="hidden md:flex flex-col gap-6">
+        {/* Top row - 3 images */}
+        <div className="flex gap-4 justify-center items-end">
+          {/* Image 1 - tilted left */}
+          <div 
+            className="group relative w-[30%] aspect-[3/4] transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out"
+            style={{ animation: 'floatIn 0.6s ease-out forwards', animationDelay: '0ms', opacity: 0 }}
+          >
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-amber-400/20 to-teal-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative h-full bg-white p-2 rounded-xl shadow-2xl shadow-slate-900/50">
+              <img src={images[0]} alt="Kỷ niệm 1" className="w-full h-full object-cover rounded-lg" />
             </div>
           </div>
-          
-          {/* Corner decorations */}
-          <div className="absolute top-3 left-3 w-4 h-4 border-l-2 border-t-2 border-amber-400/0 group-hover:border-amber-400 transition-all duration-300 rounded-tl-sm" />
-          <div className="absolute top-3 right-3 w-4 h-4 border-r-2 border-t-2 border-teal-400/0 group-hover:border-teal-400 transition-all duration-300 rounded-tr-sm" />
-          <div className="absolute bottom-3 left-3 w-4 h-4 border-l-2 border-b-2 border-cyan-400/0 group-hover:border-cyan-400 transition-all duration-300 rounded-bl-sm" />
-          <div className="absolute bottom-3 right-3 w-4 h-4 border-r-2 border-b-2 border-amber-400/0 group-hover:border-amber-400 transition-all duration-300 rounded-br-sm" />
+
+          {/* Image 2 - center, larger */}
+          <div 
+            className="group relative w-[35%] aspect-[3/4] transform hover:scale-105 transition-all duration-500 ease-out z-10"
+            style={{ animation: 'floatIn 0.6s ease-out forwards', animationDelay: '100ms', opacity: 0 }}
+          >
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-amber-400/30 to-cyan-400/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative h-full bg-white p-2 rounded-xl shadow-2xl shadow-slate-900/50">
+              <img src={images[1]} alt="Kỷ niệm 2" className="w-full h-full object-cover rounded-lg" />
+            </div>
+          </div>
+
+          {/* Image 3 - tilted right */}
+          <div 
+            className="group relative w-[30%] aspect-[3/4] transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out"
+            style={{ animation: 'floatIn 0.6s ease-out forwards', animationDelay: '200ms', opacity: 0 }}
+          >
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-teal-400/20 to-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative h-full bg-white p-2 rounded-xl shadow-2xl shadow-slate-900/50">
+              <img src={images[2]} alt="Kỷ niệm 3" className="w-full h-full object-cover rounded-lg" />
+            </div>
+          </div>
         </div>
-      ))}
+
+        {/* Bottom row - 2 images centered */}
+        <div className="flex gap-6 justify-center items-start">
+          {/* Image 4 - tilted */}
+          <div 
+            className="group relative w-[32%] aspect-[4/3] transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out"
+            style={{ animation: 'floatIn 0.6s ease-out forwards', animationDelay: '300ms', opacity: 0 }}
+          >
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-400/20 to-amber-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative h-full bg-white p-2 rounded-xl shadow-2xl shadow-slate-900/50">
+              <img src={images[3]} alt="Kỷ niệm 4" className="w-full h-full object-cover rounded-lg" />
+            </div>
+          </div>
+
+          {/* Image 5 - tilted opposite */}
+          <div 
+            className="group relative w-[32%] aspect-[4/3] transform -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-500 ease-out"
+            style={{ animation: 'floatIn 0.6s ease-out forwards', animationDelay: '400ms', opacity: 0 }}
+          >
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-amber-400/20 to-teal-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative h-full bg-white p-2 rounded-xl shadow-2xl shadow-slate-900/50">
+              <img src={images[4]} alt="Kỷ niệm 5" className="w-full h-full object-cover rounded-lg" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating decorative sparkles - hidden on mobile */}
+      <div className="hidden md:block">
+        <div className="absolute -top-4 left-1/3 text-amber-400/30 text-xl animate-pulse">✦</div>
+        <div className="absolute -top-2 right-1/4 text-teal-400/30 text-sm animate-pulse" style={{ animationDelay: '300ms' }}>✦</div>
+        <div className="absolute -bottom-4 left-1/4 text-cyan-400/30 text-lg animate-pulse" style={{ animationDelay: '600ms' }}>✦</div>
+        <div className="absolute -bottom-2 right-1/3 text-amber-400/30 text-xl animate-pulse" style={{ animationDelay: '900ms' }}>✦</div>
+      </div>
+
+      {/* CSS Animations */}
+      <style>{`
+        @keyframes floatIn {
+          from {
+            opacity: 0;
+            transform: translateY(30px) rotate(0deg);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        /* Hide scrollbar for webkit browsers */
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 }
