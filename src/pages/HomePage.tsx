@@ -397,6 +397,36 @@ export default function HomePage() {
           </div>
         </FadeInSection>
       </section>
+
+      {/* MAP NAVIGATION SECTION */}
+      <section className="relative py-16 px-4 text-center overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <Background3D intensity={25} className="absolute top-[30%] right-[25%]">
+            <div className="w-56 h-56 bg-cyan-500/5 rounded-full blur-3xl" />
+          </Background3D>
+        </div>
+
+        <FadeInSection delay={100} direction="up">
+          <div className="max-w-2xl mx-auto">
+            <FloatingElement duration={4} distance={8}>
+              <span className="text-5xl mb-6 block">🗺️</span>
+            </FloatingElement>
+            <p className="text-xl md:text-2xl font-serif text-slate-300 mb-4">
+              Xem bản đồ chi tiết đến địa điểm
+            </p>
+            <p className="text-slate-400 text-base mb-8">
+              Nhấn vào nút bên dưới để xem hướng dẫn đường đi nhé!
+            </p>
+            <a
+              href="/map"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-white font-medium rounded-xl transition-all duration-300 shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-105"
+            >
+              <span>📍</span>
+              <span>Xem Bản Đồ</span>
+            </a>
+          </div>
+        </FadeInSection>
+      </section>
     </div>
   );
 }
