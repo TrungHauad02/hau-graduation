@@ -95,10 +95,10 @@ export default function Model3DViewer({
   interactive = false,
 }: Model3DViewerProps) {
   return (
-    <div className={`w-full h-full ${className}`} style={{ touchAction: interactive ? 'pan-y' : 'auto' }}>
+    <div className={`w-full h-full ${className}`} style={{ touchAction: 'none' }}>
       <Canvas
         camera={{ position: cameraPosition, fov: 45 }}
-        style={{ background: 'transparent', touchAction: interactive ? 'pan-y' : 'auto' }}
+        style={{ background: 'transparent', touchAction: 'none' }}
         gl={{ 
           alpha: true, 
           antialias: false, // Disable antialiasing for better performance

@@ -22,8 +22,8 @@ export default function HomePage() {
   return (
     <div className="relative">
       {/* FIXED 3D Model - Sticky on LEFT side, always visible */}
-      {/* On mobile: smaller size to allow scrolling */}
-      <div className="fixed left-0 top-0 h-screen w-[150px] md:w-[350px] z-10">
+      {/* On mobile: smaller container, zoomed out camera to show full model */}
+      <div className="fixed left-0 top-0 h-screen w-[120px] md:w-[350px] z-10">
         <div className="absolute inset-0 flex items-center justify-center opacity-40 md:opacity-60">
           <Suspense fallback={null}>
             <Model3DViewer 
@@ -31,7 +31,7 @@ export default function HomePage() {
               scale={1.2}
               autoRotate={false}
               playAnimation={true}
-              cameraPosition={[0, 0, 10]}
+              cameraPosition={[0, 0, 14]}
               interactive={true}
             />
           </Suspense>
