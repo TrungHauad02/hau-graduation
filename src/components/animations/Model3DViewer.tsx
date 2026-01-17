@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useAnimations, Center, OrbitControls } from '@react-three/drei';
 import type { Group } from 'three';
 import { SkeletonUtils } from 'three-stdlib';
+import { TOUCH } from 'three';
 
 interface ModelProps {
   modelPath: string;
@@ -129,12 +130,12 @@ export default function Model3DViewer({
               enableZoom={false}
               enablePan={false}
               enableRotate={true}
-              rotateSpeed={0.5}
+              rotateSpeed={0.8}
               minPolarAngle={0}
               maxPolarAngle={Math.PI}
               minAzimuthAngle={-Infinity}
               maxAzimuthAngle={Infinity}
-              touches={{ ONE: 1, TWO: 0 }} // ONE finger = ROTATE, disable TWO finger gestures
+              touches={{ ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN }}
             />
           )}
         </Suspense>
