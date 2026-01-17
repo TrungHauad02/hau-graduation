@@ -1,6 +1,6 @@
 import { Suspense, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, useAnimations, Center } from '@react-three/drei';
+import { useGLTF, useAnimations, Center, OrbitControls } from '@react-three/drei';
 import type { Group } from 'three';
 import { SkeletonUtils } from 'three-stdlib';
 
@@ -80,6 +80,7 @@ interface Model3DViewerProps {
   showControls?: boolean;
   cameraPosition?: [number, number, number];
   playAnimation?: boolean;
+  interactive?: boolean; // Allow user to drag and rotate the model
 }
 
 export default function Model3DViewer({
@@ -91,9 +92,10 @@ export default function Model3DViewer({
   className = '',
   cameraPosition = [0, 0, 5],
   playAnimation = true,
+  interactive = false,
 }: Model3DViewerProps) {
   return (
-    <div className={`w-full h-full ${className}`}>
+    <div className={`w-full h-full ${className}`} style={{ touchAction: interactive ? 'none' : 'auto' }}>
       <Canvas
         camera={{ position: cameraPosition, fov: 45 }}
         style={{ background: 'transparent' }}
@@ -117,9 +119,21 @@ export default function Model3DViewer({
             scale={scale}
             rotation={rotation}
             position={position}
-            autoRotate={autoRotate}
+            autoRotate={autoRotate && !interactive}
             playAnimation={playAnimation}
           />
+          
+          {/* Interactive controls - allows user to rotate the model by dragging */}
+          {interactive && (
+            <OrbitControls 
+              enableZoom={false}
+              enablePan={false}
+              enableRotate={true}
+              rotateSpeed={0.5}
+              minPolarAngle={Math.PI / 4}
+              maxPolarAngle={Math.PI / 1.5}
+            />
+          )}
         </Suspense>
       </Canvas>
     </div>

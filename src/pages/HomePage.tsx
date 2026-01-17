@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <div className="relative">
       {/* FIXED 3D Model - Sticky on LEFT side, always visible */}
-      <div className="fixed left-0 top-0 h-screen w-[350px] pointer-events-none z-10">
+      <div className="fixed left-0 top-0 h-screen w-[350px] z-10">
         <div className="absolute inset-0 flex items-center justify-center opacity-60">
           <Suspense fallback={null}>
             <Model3DViewer 
@@ -31,13 +31,14 @@ export default function HomePage() {
               autoRotate={false}
               playAnimation={true}
               cameraPosition={[0, 0, 8]}
+              interactive={true}
             />
           </Suspense>
         </div>
       </div>
 
       {/* FIXED 3D Model - Sticky on RIGHT side, hidden on mobile */}
-      <div className="fixed right-0 top-0 h-screen w-[350px] pointer-events-none z-10 hidden md:block">
+      <div className="fixed right-0 top-0 h-screen w-[350px] z-10 hidden md:block">
         <div className="absolute inset-0 flex items-center justify-center opacity-60">
           <Suspense fallback={null}>
             <Model3DViewer 
@@ -46,6 +47,7 @@ export default function HomePage() {
               autoRotate={false}
               playAnimation={true}
               cameraPosition={[0, 0, 8]}
+              interactive={true}
             />
           </Suspense>
         </div>
