@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import Background3D from '../components/animations/Background3D'
 import FloatingElement from '../components/animations/FloatingElement'
 import FadeInSection from '../components/animations/FadeInSection'
-import Cube3D from '../components/animations/Cube3D'
-import Diamond3D from '../components/animations/Diamond3D'
-import Ring3D from '../components/animations/Ring3D'
 import GraduationCap from '../components/GraduationCap'
 import GradientButton from '../components/GradientButton'
+
+// Lazy load the 3D viewer for better performance
+const Model3DViewer = lazy(() => import('../components/animations/Model3DViewer'))
+
+const MODEL_PATH = '/aqua-anime-chibi-model/source/testupload.glb'
 
 import {
   GRADUATE_INFO,
@@ -18,50 +20,48 @@ import {
 export default function HomePage() {
   return (
     <div className="relative">
+      {/* FIXED 3D Model - Sticky on left side, always visible */}
+      <div className="fixed left-0 top-0 h-screen w-[350px] pointer-events-none z-10">
+        <div className="absolute inset-0 flex items-center justify-center opacity-60">
+          <Suspense fallback={null}>
+            <Model3DViewer 
+              modelPath={MODEL_PATH}
+              scale={1.2}
+              autoRotate={false}
+              floatIntensity={0.3}
+              playAnimation={true}
+              environmentPreset="city"
+              cameraPosition={[0, 0, 8]}
+            />
+          </Suspense>
+        </div>
+      </div>
+
+      {/* Background gradient orbs - Fixed */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+        <Background3D
+          intensity={40}
+          className="absolute top-[20%] left-[20%]"
+        >
+          <div className="w-64 h-64 bg-teal-500/5 rounded-full blur-3xl" />
+        </Background3D>
+
+        <Background3D
+          intensity={-50}
+          className="absolute bottom-[30%] right-[20%]"
+        >
+          <div className="w-80 h-80 bg-amber-500/5 rounded-full blur-3xl" />
+        </Background3D>
+
+        <Background3D intensity={35} className="absolute top-[50%] left-[30%]">
+          <div className="w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl" />
+        </Background3D>
+      </div>
+
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-16 overflow-hidden">
-        {/* 3D Background Elements - Rotating 3D objects */}
+        {/* Floating emojis */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* 3D Rotating Cubes */}
-          <div className="absolute top-[15%] left-[8%]">
-            <Cube3D size={50} color="rgba(20, 184, 166, 0.4)" rotationDuration={25} mouseInfluence={0.6} />
-          </div>
-          
-          <div className="absolute top-[25%] right-[12%]">
-            <Cube3D size={35} color="rgba(251, 191, 36, 0.4)" rotationDuration={20} reverse mouseInfluence={0.5} />
-          </div>
-
-          <div className="absolute bottom-[35%] left-[5%]">
-            <Cube3D size={45} color="rgba(6, 182, 212, 0.4)" rotationDuration={30} mouseInfluence={0.4} />
-          </div>
-
-          {/* 3D Rotating Diamonds */}
-          <div className="absolute top-[40%] right-[6%]">
-            <Diamond3D size={55} color="rgba(251, 191, 36, 0.5)" rotationDuration={18} mouseInfluence={0.7} />
-          </div>
-
-          <div className="absolute bottom-[25%] right-[15%]">
-            <Diamond3D size={40} color="rgba(20, 184, 166, 0.5)" rotationDuration={22} reverse mouseInfluence={0.5} />
-          </div>
-
-          <div className="absolute top-[60%] left-[10%]">
-            <Diamond3D size={35} color="rgba(6, 182, 212, 0.5)" rotationDuration={15} mouseInfluence={0.6} />
-          </div>
-
-          {/* 3D Rotating Rings */}
-          <div className="absolute top-[20%] left-[25%]">
-            <Ring3D size={60} color="rgba(20, 184, 166, 0.5)" rotationDuration={15} mouseInfluence={0.8} />
-          </div>
-
-          <div className="absolute bottom-[20%] right-[25%]">
-            <Ring3D size={50} color="rgba(251, 191, 36, 0.5)" rotationDuration={12} reverse mouseInfluence={0.6} />
-          </div>
-
-          <div className="absolute top-[55%] right-[20%]">
-            <Ring3D size={45} color="rgba(6, 182, 212, 0.5)" rotationDuration={18} mouseInfluence={0.5} segments={8} />
-          </div>
-
-          {/* Floating emojis */}
           <Background3D intensity={30} className="absolute top-20 left-[45%]">
             <FloatingElement duration={4} distance={20}>
               <span className="text-4xl opacity-15">✨</span>
@@ -70,23 +70,8 @@ export default function HomePage() {
 
           <Background3D intensity={-25} className="absolute bottom-[40%] left-[40%]">
             <FloatingElement duration={5} delay={1} distance={15}>
-              <span className="text-3xl opacity-15">�</span>
+              <span className="text-3xl opacity-15">🎓</span>
             </FloatingElement>
-          </Background3D>
-
-          {/* Gradient orbs in background */}
-          <Background3D
-            intensity={40}
-            className="absolute top-[20%] left-[20%]"
-          >
-            <div className="w-64 h-64 bg-teal-500/5 rounded-full blur-3xl" />
-          </Background3D>
-
-          <Background3D
-            intensity={-50}
-            className="absolute bottom-[30%] right-[20%]"
-          >
-            <div className="w-80 h-80 bg-amber-500/5 rounded-full blur-3xl" />
           </Background3D>
         </div>
 
@@ -145,12 +130,6 @@ export default function HomePage() {
       <section className="relative py-20 px-4 overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[10%] left-[8%]">
-            <Cube3D size={40} color="rgba(251, 191, 36, 0.3)" rotationDuration={28} mouseInfluence={0.5} />
-          </div>
-          <div className="absolute bottom-[15%] right-[10%]">
-            <Diamond3D size={45} color="rgba(20, 184, 166, 0.4)" rotationDuration={20} reverse mouseInfluence={0.6} />
-          </div>
           <Background3D intensity={25} className="absolute top-[40%] right-[5%]">
             <div className="w-48 h-48 bg-amber-500/5 rounded-full blur-3xl" />
           </Background3D>
@@ -225,12 +204,6 @@ export default function HomePage() {
       <section className="relative py-16 px-4 overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[15%] left-[10%]">
-            <Ring3D size={55} color="rgba(20, 184, 166, 0.4)" rotationDuration={14} mouseInfluence={0.7} />
-          </div>
-          <div className="absolute bottom-[20%] right-[8%]">
-            <Cube3D size={35} color="rgba(6, 182, 212, 0.4)" rotationDuration={22} reverse mouseInfluence={0.5} />
-          </div>
           <Background3D intensity={25} className="absolute top-[40%] right-[15%]">
             <div className="w-48 h-48 bg-teal-500/5 rounded-full blur-3xl" />
           </Background3D>
@@ -259,12 +232,6 @@ export default function HomePage() {
       <section className="relative py-16 px-4 max-w-5xl mx-auto overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[10%] left-[3%]">
-            <Diamond3D size={50} color="rgba(6, 182, 212, 0.4)" rotationDuration={16} mouseInfluence={0.6} />
-          </div>
-          <div className="absolute bottom-[15%] right-[5%]">
-            <Ring3D size={45} color="rgba(251, 191, 36, 0.4)" rotationDuration={18} reverse segments={10} mouseInfluence={0.5} />
-          </div>
           <Background3D intensity={30} className="absolute top-[50%] left-[20%]">
             <div className="w-56 h-56 bg-cyan-500/5 rounded-full blur-3xl" />
           </Background3D>
@@ -334,18 +301,6 @@ export default function HomePage() {
       <section className="relative py-20 px-4 overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[12%] left-[8%]">
-            <Cube3D size={55} color="rgba(20, 184, 166, 0.35)" rotationDuration={24} mouseInfluence={0.6} />
-          </div>
-          <div className="absolute top-[30%] right-[6%]">
-            <Diamond3D size={50} color="rgba(251, 191, 36, 0.4)" rotationDuration={18} reverse mouseInfluence={0.7} />
-          </div>
-          <div className="absolute bottom-[15%] left-[12%]">
-            <Ring3D size={50} color="rgba(6, 182, 212, 0.4)" rotationDuration={16} mouseInfluence={0.5} />
-          </div>
-          <div className="absolute bottom-[25%] right-[10%]">
-            <Cube3D size={40} color="rgba(251, 191, 36, 0.3)" rotationDuration={30} mouseInfluence={0.4} />
-          </div>
           <Background3D intensity={35} className="absolute top-[20%] left-[25%]">
             <div className="w-72 h-72 bg-teal-500/5 rounded-full blur-3xl" />
           </Background3D>
@@ -401,18 +356,6 @@ export default function HomePage() {
       <section className="relative py-16 px-4 text-center overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[15%] left-[10%]">
-            <Diamond3D size={55} color="rgba(20, 184, 166, 0.4)" rotationDuration={20} mouseInfluence={0.7} />
-          </div>
-          <div className="absolute top-[25%] right-[8%]">
-            <Cube3D size={45} color="rgba(251, 191, 36, 0.35)" rotationDuration={25} reverse mouseInfluence={0.5} />
-          </div>
-          <div className="absolute bottom-[20%] left-[15%]">
-            <Ring3D size={50} color="rgba(6, 182, 212, 0.4)" rotationDuration={14} mouseInfluence={0.6} />
-          </div>
-          <div className="absolute bottom-[30%] right-[12%]">
-            <Diamond3D size={40} color="rgba(251, 191, 36, 0.4)" rotationDuration={18} reverse mouseInfluence={0.5} />
-          </div>
           <Background3D intensity={30} className="absolute top-[40%] left-[30%]">
             <div className="w-64 h-64 bg-teal-500/5 rounded-full blur-3xl" />
           </Background3D>

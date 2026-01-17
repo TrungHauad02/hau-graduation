@@ -1,12 +1,15 @@
+import { Suspense, lazy } from 'react'
 import FadeInSection from '../components/animations/FadeInSection'
 import Tilt3DCard from '../components/animations/Tilt3DCard'
 import Background3D from '../components/animations/Background3D'
-import Cube3D from '../components/animations/Cube3D'
-import Diamond3D from '../components/animations/Diamond3D'
-import Ring3D from '../components/animations/Ring3D'
 import Card from '../components/Card'
 import GradientButton from '../components/GradientButton'
 import { GRADUATE_INFO, EVENT_INFO } from './homepage.constants'
+
+// Lazy load the 3D viewer for better performance
+const Model3DViewer = lazy(() => import('../components/animations/Model3DViewer'))
+
+const MODEL_PATH = '/aqua-anime-chibi-model/source/testupload.glb'
 
 interface Location {
   id: string
@@ -67,48 +70,25 @@ const locations: Location[] = [
 export default function MapPage() {
   return (
     <div className="relative">
-      {/* 3D Background Elements - Rotating 3D shapes */}
+      {/* FIXED 3D Model - Sticky on left side, always visible */}
+      <div className="fixed left-0 top-0 h-screen w-[350px] pointer-events-none z-10">
+        <div className="absolute inset-0 flex items-center justify-center opacity-60">
+          <Suspense fallback={null}>
+            <Model3DViewer 
+              modelPath={MODEL_PATH}
+              scale={1.2}
+              autoRotate={false}
+              floatIntensity={0.3}
+              playAnimation={true}
+              environmentPreset="city"
+              cameraPosition={[0, 0, 8]}
+            />
+          </Suspense>
+        </div>
+      </div>
+
+      {/* Background gradient orbs - Fixed */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        {/* 3D Rotating Cubes */}
-        <div className="absolute top-[10%] left-[5%]">
-          <Cube3D size={50} color="rgba(20, 184, 166, 0.4)" rotationDuration={22} mouseInfluence={0.6} />
-        </div>
-        
-        <div className="absolute top-[25%] right-[8%]">
-          <Cube3D size={40} color="rgba(251, 191, 36, 0.4)" rotationDuration={28} reverse mouseInfluence={0.5} />
-        </div>
-
-        <div className="absolute bottom-[35%] left-[8%]">
-          <Cube3D size={35} color="rgba(6, 182, 212, 0.4)" rotationDuration={25} mouseInfluence={0.4} />
-        </div>
-
-        {/* 3D Rotating Diamonds */}
-        <div className="absolute top-[45%] right-[6%]">
-          <Diamond3D size={55} color="rgba(251, 191, 36, 0.5)" rotationDuration={18} mouseInfluence={0.7} />
-        </div>
-
-        <div className="absolute bottom-[20%] right-[15%]">
-          <Diamond3D size={45} color="rgba(20, 184, 166, 0.5)" rotationDuration={20} reverse mouseInfluence={0.5} />
-        </div>
-
-        <div className="absolute top-[60%] left-[4%]">
-          <Diamond3D size={40} color="rgba(6, 182, 212, 0.5)" rotationDuration={16} mouseInfluence={0.6} />
-        </div>
-
-        {/* 3D Rotating Rings */}
-        <div className="absolute top-[15%] left-[20%]">
-          <Ring3D size={55} color="rgba(20, 184, 166, 0.5)" rotationDuration={14} mouseInfluence={0.7} />
-        </div>
-
-        <div className="absolute bottom-[25%] right-[25%]">
-          <Ring3D size={50} color="rgba(251, 191, 36, 0.5)" rotationDuration={12} reverse mouseInfluence={0.6} />
-        </div>
-
-        <div className="absolute top-[50%] right-[18%]">
-          <Ring3D size={45} color="rgba(6, 182, 212, 0.5)" rotationDuration={16} mouseInfluence={0.5} segments={8} />
-        </div>
-
-        {/* Gradient orbs */}
         <Background3D intensity={40} className="absolute top-[15%] left-[25%]">
           <div className="w-72 h-72 bg-teal-500/5 rounded-full blur-3xl" />
         </Background3D>
