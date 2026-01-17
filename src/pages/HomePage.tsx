@@ -4,12 +4,22 @@ import FloatingElement from '../components/animations/FloatingElement'
 import FadeInSection from '../components/animations/FadeInSection'
 import GraduationCap from '../components/GraduationCap'
 import GradientButton from '../components/GradientButton'
+import PhotoGallery from '../components/PhotoGallery'
 
 // Lazy load the 3D viewer for better performance
 const Model3DViewer = lazy(() => import('../components/animations/Model3DViewer'))
 
 const MODEL_PATH_LEFT = '/aqua-anime-chibi-model/source/testupload.glb'
 const MODEL_PATH_RIGHT = '/pantagruel__anime_chibi_model.glb'
+
+// Gallery images
+const GALLERY_IMAGES = [
+  '/img0.jpg',
+  '/img1.jpeg',
+  '/img2.jpg',
+  '/img3.jpg',
+  '/img4.png',
+]
 
 import {
   GRADUATE_INFO,
@@ -380,6 +390,15 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </FadeInSection>
+      </section>
+
+      {/* PHOTO GALLERY SECTION */}
+      <section className="relative py-12 px-4 overflow-hidden">
+        <FadeInSection delay={100} direction="up">
+          <div className="max-w-5xl mx-auto">
+            <PhotoGallery images={GALLERY_IMAGES} />
           </div>
         </FadeInSection>
       </section>
