@@ -12,8 +12,8 @@ export const GRADUATE_INFO = {
 }
 
 export const EVENT_INFO = {
-  date: new Date("2026-01-23T10:30:00"),
-  dateString: "23 tháng 1 năm 2026",
+  date: new Date("2026-01-24T10:30:00"),
+  dateString: "24 tháng 1 năm 2026",
   time: "10:30 sáng",
   venue: "Hội trường lớn",
   address: "01 Đ. Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP. Hồ Chí Minh",
